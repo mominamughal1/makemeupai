@@ -11,8 +11,8 @@ export const featureCards = [
   {
     title: "AI Face Insights",
     description: "Personalized style hints based on your features and preferences.",
-    route: "/features",
-    requiresAuth: false,
+    route: "/face-insights",
+    requiresAuth: true,
   },
   {
     title: "Virtual Try-On Experience",

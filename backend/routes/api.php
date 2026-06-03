@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Api\AiController;
 use App\Http\Controllers\Api\AuthController;
 use App\Http\Controllers\Api\BeauticianController;
 use App\Http\Controllers\Api\BookingController;
@@ -25,6 +26,9 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::post('/wardrobe', [ClothingItemController::class, 'store']);
     Route::delete('/wardrobe/{id}', [ClothingItemController::class, 'destroy']);
     Route::get('/recommendations', [RecommendationController::class, 'index']);
+    Route::get('/ai/face-profile', [AiController::class, 'faceProfile']);
+    Route::post('/ai/face-analysis', [AiController::class, 'faceAnalysis']);
+    Route::post('/ai/look-recommendations', [AiController::class, 'lookRecommendations']);
     Route::post('/bookings', [BookingController::class, 'store']);
     Route::get('/bookings', [BookingController::class, 'index']);
     Route::patch('/bookings/{id}/cancel', [BookingController::class, 'cancel']);

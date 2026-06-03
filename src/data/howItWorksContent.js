@@ -65,6 +65,11 @@ export const howItWorksFaq = [
       "Your wardrobe and bookings are tied to your account and accessed only when you are signed in. We do not publish your uploads on public marketing pages.",
   },
   {
+    question: "What happens to my selfie for Face Insights?",
+    answer:
+      "Your selfie is saved on your profile photo so you can generate look suggestions anytime. Upload a new photo anytime to replace it and refresh your style traits.",
+  },
+  {
     question: "When will Premium features launch?",
     answer:
       "Premium is planned for advanced styling tools and perks. Free features remain fully usable today — we will announce Premium details on the dashboard when ready.",

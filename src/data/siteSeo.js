@@ -64,6 +64,11 @@ export const routeSeo = {
     description: "Personalized outfit recommendations on MakemeupAI.",
     robots: "noindex,nofollow",
   },
+  "face-insights": {
+    title: "Face Insights",
+    description: "Upload a selfie for style trait analysis and personalized makeup, hair, and mehndi suggestions.",
+    robots: "noindex,nofollow",
+  },
   bookings: {
     title: "My Bookings",
     description: "View and manage your beautician bookings on MakemeupAI.",

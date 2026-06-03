@@ -2,6 +2,16 @@
 
 All notable frontend changes for MakemeupAI are documented here.
 
+## [0.5.0] - 2026-06-03
+
+### Added
+
+- Face Insights MVP: `POST /api/ai/face-analysis`, `POST /api/ai/look-recommendations`, `GET /api/ai/face-profile`
+- `users.face_traits` JSON column; selfie stored on `profile_photo`
+- `FaceInsightsView` at `/face-insights` with upload, traits, and makeup/hair/mehndi suggestions
+- Dashboard nav link and Face Insights card on dashboard
+- Home feature card **AI Face Insights** routes to `/face-insights` (auth required)
+
 ## [0.4.0] - 2026-04-27
 
 ### Added

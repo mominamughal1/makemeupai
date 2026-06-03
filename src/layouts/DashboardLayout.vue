@@ -6,6 +6,7 @@ const router = useRouter();
 
 const navLinks = [
   { label: "Dashboard", to: "/dashboard" },
+  { label: "Face Insights", to: "/face-insights" },
   { label: "Wardrobe", to: "/wardrobe" },
   { label: "Recommendations", to: "/recommendations" },
   { label: "Bookings", to: "/bookings" },
@@ -37,8 +38,8 @@ async function handleSignOut() {
 
         <div class="mb-8 flex items-center gap-3">
           <img
-            v-if="authStore.user?.profile_photo"
-            :src="authStore.user.profile_photo"
+            v-if="authStore.user?.profile_photo_url"
+            :src="authStore.user.profile_photo_url"
             :alt="authStore.user.name"
             class="h-10 w-10 rounded-full object-cover ring-2 ring-[#f0dce8]"
           />

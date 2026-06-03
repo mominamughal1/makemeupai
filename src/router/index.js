@@ -2,6 +2,7 @@ import { createRouter, createWebHistory } from "vue-router";
 import BeauticiansView from "../views/BeauticiansView.vue";
 import BookingsView from "../views/BookingsView.vue";
 import DashboardView from "../views/DashboardView.vue";
+import FaceInsightsView from "../views/FaceInsightsView.vue";
 import FeaturesView from "../views/FeaturesView.vue";
 import HomeView from "../views/HomeView.vue";
 import HowItWorksView from "../views/HowItWorksView.vue";
@@ -44,6 +45,12 @@ const routes = [
     name: "recommendations",
     component: RecommendationsView,
     meta: { title: "Outfit Recommendations", requiresAuth: true, layout: "dashboard" },
+  },
+  {
+    path: "/face-insights",
+    name: "face-insights",
+    component: FaceInsightsView,
+    meta: { title: "Face Insights", requiresAuth: true, layout: "dashboard" },
   },
   {
     path: "/bookings",

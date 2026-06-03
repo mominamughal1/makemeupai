@@ -104,6 +104,19 @@ onMounted(async () => {
       </section>
 
       <section class="glass-card p-5">
+        <h2 class="text-lg font-semibold text-brand-plum">Face Insights</h2>
+        <p class="mt-2 text-sm text-[#6f6176]">
+          Upload a selfie for style traits and makeup, hair, and mehndi suggestions.
+        </p>
+        <RouterLink
+          to="/face-insights"
+          class="mt-4 inline-block text-sm font-semibold text-brand-plum hover:underline"
+        >
+          Open Face Insights →
+        </RouterLink>
+      </section>
+
+      <section class="glass-card p-5">
         <h2 class="text-lg font-semibold text-brand-plum">Outfit Suggestions</h2>
         <p class="mt-2 text-sm text-[#6f6176]">Ready to plan your look?</p>
         <div class="mt-4 flex flex-wrap gap-2">

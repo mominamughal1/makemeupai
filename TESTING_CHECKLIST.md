@@ -99,6 +99,20 @@ Expect HTTP **200**.
 
 ---
 
+## FLOW 4b — Face Insights (makeup / hair / mehndi)
+
+**Goal:** Selfie upload, trait display, and look recommendations from the API.
+
+| Step | Action | Expected result | PASS | FAIL | NOTES |
+|------|--------|-----------------|------|------|-------|
+| 1 | - [ ] Sign in, go to http://localhost:5173/face-insights | Page loads; nav includes **Face Insights** | | | |
+| 2 | - [ ] Upload a selfie (JPEG/PNG) | Loading state; then **Style traits** show face shape, skin tone, hair length; preview image updates | | | |
+| 3 | - [ ] Select event (e.g. **Wedding**) and mood (**Elegant**); click **Generate look recommendations** | Three columns: Makeup, Hairstyle, Mehndi with suggestion lists | | | |
+| 4 | - [ ] Click **Get outfit ideas from your wardrobe** | Navigates to `/recommendations` with matching occasion query | | | |
+| 5 | - [ ] Sign out, visit `/face-insights` directly | Redirect to `/signin` | | | |
+
+---
+
 ## FLOW 5 — Beautician Booking
 
 **Goal:** Bookings load from the API; guests are prompted to sign in; authenticated users can book and cancel.

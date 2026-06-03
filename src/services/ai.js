@@ -1,0 +1,22 @@
+import api from "./api";
+
+export async function getFaceProfile() {
+  const { data } = await api.get("/api/ai/face-profile");
+  return data.data;
+}
+
+export async function uploadFaceAnalysis(formData) {
+  const { data } = await api.post("/api/ai/face-analysis", formData, {
+    headers: { "Content-Type": "multipart/form-data" },
+    transformRequest: [(payload) => payload],
+  });
+  return data.data;
+}
+
+export async function getLookRecommendations({ eventType, styleMood }) {
+  const { data } = await api.post("/api/ai/look-recommendations", {
+    eventType,
+    styleMood,
+  });
+  return data.data;
+}

@@ -27,8 +27,8 @@ Use one method:
 ### Option A: Clone from Git repository (recommended)
 
 ```bash
-git clone <your-repo-url> makemeupai-frontend
-cd makemeupai-frontend
+git clone https://github.com/Huzaifa690-arch/makemeupai.git makemeupai
+cd makemeupai
 ```
 
 ### Option B: Copy project folder manually

@@ -297,17 +297,31 @@ Cancel booking (based on policy).
 
 ## 9. AI Recommendation Endpoints
 
-## POST `/ai/face-analysis`
+Auth: Sanctum required for all routes in this section.
 
-Analyze user selfie for face features.
+**MVP note:** Face analysis uses deterministic heuristics (file hash + user id), not a real CV model. Response shapes are stable for future Azure Face or custom ML integration.
 
-Request:
+## GET `/ai/face-profile`
+
+Returns stored selfie URL and cached traits.
+
+Response data:
 
 ```json
 {
-  "imageUrl": "https://cdn.example.com/selfies/user.jpg"
+  "profile_photo_url": "http://localhost:8000/storage/selfies/1.jpg",
+  "face_traits": {
+    "faceShape": "oval",
+    "skinTone": "warm-medium",
+    "hairLength": "medium",
+    "analyzed_at": "2026-06-03T12:00:00+00:00"
+  }
 }
 ```
+
+## POST `/ai/face-analysis`
+
+Upload selfie (`multipart/form-data`, field `image`, max 5MB). Saves to user `profile_photo`, runs analysis, caches `face_traits`.
 
 Response data:
 
@@ -315,24 +329,28 @@ Response data:
 {
   "faceShape": "oval",
   "skinTone": "warm-medium",
-  "hairLength": "medium"
+  "hairLength": "medium",
+  "profile_photo_url": "http://localhost:8000/storage/selfies/1.jpg",
+  "analyzed_at": "2026-06-03T12:00:00+00:00"
 }
 ```
 
 ## POST `/ai/look-recommendations`
 
-Generate makeup + hairstyle + mehndi suggestions.
+Generate makeup + hairstyle + mehndi suggestions from stored `face_traits`. Returns 422 if user has not uploaded a selfie.
 
 Request:
 
 ```json
 {
-  "faceShape": "oval",
-  "skinTone": "warm-medium",
   "eventType": "wedding",
   "styleMood": "elegant"
 }
 ```
+
+`eventType`: `wedding` | `party` | `casual` | `work` | `formal`
+
+`styleMood`: `elegant` | `natural` | `bold` | `soft`
 
 Response data:
 

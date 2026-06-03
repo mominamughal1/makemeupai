@@ -8,6 +8,8 @@ use App\Models\ClothingItem;
 use App\Models\User;
 use Illuminate\Foundation\Http\Middleware\ValidateCsrfToken;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Http\UploadedFile;
+use Illuminate\Support\Facades\Storage;
 use Tests\TestCase;
 
 class ApiSmokeTest extends TestCase
@@ -463,5 +465,89 @@ class ApiSmokeTest extends TestCase
             'id' => $booking->id,
             'status' => 'pending',
         ]);
+    }
+
+    // AI face insights
+
+    public function test_post_look_recommendations_without_face_analysis_returns_422(): void
+    {
+        $this->actingAsUser();
+
+        $response = $this->postJson('/api/ai/look-recommendations', [
+            'eventType' => 'party',
+            'styleMood' => 'elegant',
+        ]);
+
+        $response->assertStatus(422)
+            ->assertJson(['success' => false]);
+    }
+
+    private function fakeSelfieUpload(): UploadedFile
+    {
+        return UploadedFile::fake()->create('selfie.jpg', 64, 'image/jpeg');
+    }
+
+    public function test_post_face_analysis_returns_traits_and_stores_profile(): void
+    {
+        Storage::fake('public');
+        $user = $this->actingAsUser();
+
+        $response = $this->post('/api/ai/face-analysis', [
+            'image' => $this->fakeSelfieUpload(),
+        ]);
+
+        $response->assertOk()
+            ->assertJson(['success' => true])
+            ->assertJsonStructure([
+                'data' => ['faceShape', 'skinTone', 'hairLength', 'profile_photo_url', 'analyzed_at'],
+            ]);
+
+        $user->refresh();
+        $this->assertNotNull($user->profile_photo);
+        $this->assertIsArray($user->face_traits);
+        $this->assertNotEmpty($user->face_traits['faceShape']);
+        Storage::disk('public')->assertExists($user->profile_photo);
+    }
+
+    public function test_post_look_recommendations_after_face_analysis_returns_200(): void
+    {
+        Storage::fake('public');
+        $user = $this->actingAsUser();
+
+        $this->post('/api/ai/face-analysis', [
+            'image' => $this->fakeSelfieUpload(),
+        ])->assertOk();
+
+        $response = $this->postJson('/api/ai/look-recommendations', [
+            'eventType' => 'wedding',
+            'styleMood' => 'elegant',
+        ]);
+
+        $response->assertOk()
+            ->assertJson(['success' => true])
+            ->assertJsonStructure([
+                'data' => ['makeup', 'hairstyle', 'mehndi'],
+            ]);
+
+        $makeup = $response->json('data.makeup');
+        $this->assertIsArray($makeup);
+        $this->assertNotEmpty($makeup);
+    }
+
+    public function test_get_face_profile_returns_photo_and_traits(): void
+    {
+        $user = $this->actingAsUser();
+        $user->update([
+            'face_traits' => [
+                'faceShape' => 'oval',
+                'skinTone' => 'warm-medium',
+                'hairLength' => 'medium',
+            ],
+        ]);
+
+        $response = $this->getJson('/api/ai/face-profile');
+
+        $response->assertOk()
+            ->assertJsonPath('data.face_traits.faceShape', 'oval');
     }
 }
