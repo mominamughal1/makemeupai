@@ -1,4 +1,4 @@
-import api from "./api";
+import api, { getCsrf } from "./api";
 
 export async function getFaceProfile() {
   const { data } = await api.get("/api/ai/face-profile");
@@ -6,6 +6,7 @@ export async function getFaceProfile() {
 }
 
 export async function uploadFaceAnalysis(formData) {
+  await getCsrf();
   const { data } = await api.post("/api/ai/face-analysis", formData, {
     headers: { "Content-Type": "multipart/form-data" },
     transformRequest: [(payload) => payload],
@@ -14,6 +15,7 @@ export async function uploadFaceAnalysis(formData) {
 }
 
 export async function getLookRecommendations({ eventType, styleMood }) {
+  await getCsrf();
   const { data } = await api.post("/api/ai/look-recommendations", {
     eventType,
     styleMood,

@@ -18,6 +18,11 @@ async function handleSubmit() {
   errorMessage.value = "";
   fieldErrors.value = {};
 
+  if (password.value.length < 8) {
+    errorMessage.value = "Password must be at least 8 characters.";
+    return;
+  }
+
   if (password.value !== confirmPassword.value) {
     errorMessage.value = "Passwords do not match.";
     return;
@@ -81,6 +86,7 @@ async function handleSubmit() {
               v-model="password"
               type="password"
               required
+              minlength="8"
               autocomplete="new-password"
               class="w-full rounded-xl border border-[#f0dce8] bg-white px-4 py-2.5 text-[#1f1124] outline-none focus:border-brand-rose"
             />
@@ -96,9 +102,13 @@ async function handleSubmit() {
               v-model="confirmPassword"
               type="password"
               required
+              minlength="8"
               autocomplete="new-password"
               class="w-full rounded-xl border border-[#f0dce8] bg-white px-4 py-2.5 text-[#1f1124] outline-none focus:border-brand-rose"
             />
+            <p v-if="fieldErrors.password_confirmation" class="mt-1 text-xs text-brand-plum">
+              {{ fieldErrors.password_confirmation[0] }}
+            </p>
           </div>
 
           <div>

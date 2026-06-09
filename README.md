@@ -2,7 +2,9 @@
 
 **Style Smarter. Glow Better.** — A full-stack platform for digital wardrobe management, AI-inspired outfit and beauty guidance, face-based look suggestions, and beautician booking in Pakistan.
 
-**Repository:** [github.com/Huzaifa690-arch/makemeupai](https://github.com/Huzaifa690-arch/makemeupai)
+**Repository:** [github.com/mominamughal1/makemeupai](https://github.com/mominamughal1/makemeupai)  
+**Live demo (frontend):** [makemeupai.vercel.app](https://makemeupai.vercel.app)  
+**Forked from:** [Huzaifa690-arch/makemeupai](https://github.com/Huzaifa690-arch/makemeupai)
 
 ---
 
@@ -19,7 +21,9 @@ The project is a **monorepo**:
 
 ---
 
-## Features
+## Current working features
+
+All flows below are implemented and covered by automated API smoke tests (`php artisan test` — 29 tests).
 
 ### Public marketing site
 
@@ -27,16 +31,35 @@ The project is a **monorepo**:
 - Dedicated pages: Features, How It Works (FAQ), Beauticians directory, Pricing
 - SEO: per-route meta tags, Open Graph, canonical URLs, `robots.txt`, `sitemap.xml`
 
+### Authentication (sign up / sign in)
+
+- **Sign up** at `/signup` — name, email, password (min 8 chars), confirm password, city
+- Cookie-based Sanctum SPA auth: CSRF cookie → register → auto-login → redirect to dashboard
+- Client-side validation for password length and match; server-side Laravel validation with field errors
+- Logged-in users are redirected away from `/signup` and `/signin` to `/dashboard`
+- **Sign in** at `/signin`; session restored on reload via `GET /api/auth/me`
+
 ### Authenticated app
 
-| Module | Description |
-|--------|-------------|
-| **Dashboard** | Wardrobe snapshot, outfit shortcuts, upcoming bookings, Face Insights entry |
-| **Digital wardrobe** | Upload items by category with images; filter and manage inventory |
-| **Outfit recommendations** | Up to 3 combinations from your wardrobe by occasion + local weather |
-| **Face insights** | Upload selfie (stored on profile); heuristic style traits; makeup, hair, and mehndi suggestions |
-| **Beauticians** | Browse, filter, book sessions; skill badges and ratings |
-| **Bookings** | View and cancel upcoming appointments |
+| Module | Description | Status |
+|--------|-------------|--------|
+| **Dashboard** | Wardrobe snapshot, outfit shortcuts, upcoming bookings, Face Insights entry | Working |
+| **Digital wardrobe** | Upload items by category with images; filter and manage inventory | Working |
+| **Outfit recommendations** | Up to 3 combinations from your wardrobe by occasion + local weather | Working |
+| **Face insights** | Upload selfie → heuristic trait analysis → makeup, hair, and mehndi suggestions | Working |
+| **Beauticians** | Browse, filter by city, book sessions; skill badges and ratings | Working |
+| **Bookings** | View and cancel upcoming appointments | Working |
+
+### Face insights flow (selfie → recommendations)
+
+1. Go to **Face Insights** (`/face-insights`) after signing in.
+2. **Upload selfie** — image is stored on your profile; traits are analyzed server-side.
+3. View **style traits**: face shape, skin tone, hair length (heuristic MVP — deterministic from image hash, not a live CV API).
+4. Choose **event** (wedding, party, casual, work, formal) and **mood** (elegant, natural, bold, soft).
+5. **Generate look recommendations** — personalized makeup, hairstyle, and mehndi suggestions.
+6. Optional: jump to **outfit recommendations** from your wardrobe for the same occasion.
+
+> **Note:** Face analysis uses a heuristic engine for the MVP (same image always yields the same traits). Production can swap in a real computer-vision API without changing the UI flow.
 
 ---
 
@@ -46,7 +69,7 @@ The project is a **monorepo**:
 
 **Backend:** Laravel 11, Laravel Sanctum, SQLite (default) or MySQL, PHPUnit feature tests
 
-**Auth:** Cookie-based SPA authentication (`/sanctum/csrf-cookie` + session)
+**Auth:** Cookie-based SPA authentication (`/sanctum/csrf-cookie` + session). Use **`localhost`** (not `127.0.0.1`) so session cookies work locally.
 
 ---
 
@@ -75,15 +98,10 @@ makemeupai/
 ## Prerequisites
 
 - **Node.js** 18+ (20 LTS recommended) and npm
-- **PHP** 8.2+ and **Composer** 2.x
+- **PHP** 8.4+ and **Composer** 2.x (required by current `composer.lock`)
 - **Git**
 
-**Windows note:** If `php` is not recognized, PHP may be installed via Scoop. Use the full path or add shims to PATH:
-
-```powershell
-$env:Path = "C:\Users\huzai\scoop\shims;" + $env:Path
-php -v
-```
+**Windows note:** If `php` is not recognized after install, refresh PATH or use the full path to `php.exe`. Enable extensions in `php.ini`: `openssl`, `pdo_sqlite`, `sqlite3`, `mbstring`, `fileinfo`, `curl`, `zip`.
 
 ---
 
@@ -92,7 +110,7 @@ php -v
 ### 1. Clone and install
 
 ```powershell
-git clone https://github.com/Huzaifa690-arch/makemeupai.git
+git clone https://github.com/mominamughal1/makemeupai.git
 cd makemeupai
 npm install
 copy .env.example .env.local
@@ -171,6 +189,8 @@ Full contracts: [docs/API_CONTRACTS.md](docs/API_CONTRACTS.md)
 php artisan test
 ```
 
+Key test groups: auth (register/login), wardrobe, outfit recommendations, face analysis + look recommendations, beauticians, bookings.
+
 **Frontend build:**
 
 ```powershell
@@ -217,7 +237,7 @@ Both are listed in `.gitignore`. Use `.env.example` files as templates.
 
 ## Status
 
-Production-ready MVP: marketing site, auth, wardrobe, outfit recommendations, face insights (heuristic analysis), beautician directory, and booking flows with automated API smoke tests.
+Production-ready MVP: marketing site, auth (sign up/sign in), wardrobe, outfit recommendations, face insights (heuristic analysis + look output), beautician directory, and booking flows with automated API smoke tests.
 
 Future enhancements: real computer-vision face APIs, premium billing, and deeper outfit + face trait integration.
 
@@ -232,4 +252,4 @@ This project is provided as an academic / portfolio codebase unless a separate l
 ## Contact
 
 **Email:** hello@makemeupai.com  
-**Maintainer:** [Huzaifa690-arch](https://github.com/Huzaifa690-arch)
+**Maintainer:** [mominamughal1](https://github.com/mominamughal1)

@@ -77,6 +77,10 @@ router.beforeEach(async (to) => {
   if (to.meta.requiresAuth && !authStore.isLoggedIn) {
     return { path: "/signin" };
   }
+
+  if (authStore.isLoggedIn && (to.path === "/signin" || to.path === "/signup")) {
+    return { path: "/dashboard" };
+  }
 });
 
 router.afterEach((to) => {
