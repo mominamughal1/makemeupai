@@ -1,4 +1,4 @@
-import api from "./api";
+import api, { getCsrf } from "./api";
 
 export async function getItems(category = null) {
   const params = category ? { category } : {};
@@ -7,6 +7,7 @@ export async function getItems(category = null) {
 }
 
 export async function addItem(formData) {
+  await getCsrf();
   const { data } = await api.post("/api/wardrobe", formData, {
     headers: { "Content-Type": "multipart/form-data" },
     transformRequest: [(payload) => payload],

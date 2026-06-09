@@ -2,6 +2,8 @@
 node_modules/
 dist/
 backend/vendor/
+backend/composer.phar
+backend/database/database.sqlite
 
 # Environment & secrets
 .env
