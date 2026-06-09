@@ -1,0 +1,41 @@
+# Dependencies & build
+node_modules/
+dist/
+backend/vendor/
+backend/composer.phar
+backend/database/database.sqlite
+
+# Environment & secrets
+.env
+.env.local
+.env.*.local
+backend/.env
+backend/.env.backup
+backend/.env.production
+
+# Laravel runtime
+backend/storage/*.key
+backend/storage/logs/*.log
+backend/storage/framework/cache/data/*
+backend/storage/framework/sessions/*
+backend/storage/framework/views/*
+backend/bootstrap/cache/*.php
+!backend/bootstrap/cache/.gitignore
+!backend/storage/**/.gitignore
+
+# PHP / IDE
+backend/.phpunit.result.cache
+.phpunit.cache
+.idea/
+.vscode/
+.fleet/
+
+# Cursor / local tooling (not app source)
+mcps/
+agent-transcripts/
+.cursor/
+terminals/
+
+# OS
+Thumbs.db
+.DS_Store
