@@ -212,6 +212,7 @@ npm run build
 | [docs/API_CONTRACTS.md](docs/API_CONTRACTS.md) | REST API reference |
 | [docs/CHANGELOG.md](docs/CHANGELOG.md) | Version history |
 | [backend/README.md](backend/README.md) | API-specific backend notes |
+| [docs/DEPLOYMENT.md](docs/DEPLOYMENT.md) | Vercel + Railway production deployment |
 
 ---
 
@@ -228,10 +229,23 @@ Both are listed in `.gitignore`. Use `.env.example` files as templates.
 
 ## Deployment notes
 
-1. Set `VITE_API_URL` and `VITE_SITE_URL` to production URLs and rebuild the frontend.
-2. Update `public/sitemap.xml` and `public/robots.txt` sitemap URL if needed.
-3. Run `php artisan migrate --force`, `php artisan storage:link`, and configure a real database for production.
-4. Serve the Vue `dist/` folder and proxy API requests to Laravel, or deploy separately with CORS/Sanctum domains configured.
+**Full guide:** [docs/DEPLOYMENT.md](docs/DEPLOYMENT.md)
+
+### Production (Vercel + Railway)
+
+| Service | Platform | Env highlights |
+|---------|----------|----------------|
+| Frontend | Vercel | `VITE_API_URL`, `VITE_SITE_URL` |
+| Backend | Railway (`backend/` root) | `APP_URL`, `FRONTEND_URL`, `SANCTUM_STATEFUL_DOMAINS`, `SESSION_SAME_SITE=none` |
+| Database | Railway PostgreSQL | `DB_CONNECTION=pgsql`, `DATABASE_URL` auto-injected |
+
+1. Deploy backend on Railway first; note the public API URL.
+2. Deploy frontend on Vercel with `VITE_API_URL` pointing to Railway.
+3. Set Railway `FRONTEND_URL` to your Vercel URL; redeploy both if URLs change.
+4. Attach a Railway volume at `storage/app/public` for uploaded images (selfies, wardrobe).
+5. Run `php artisan db:seed --force` once on Railway for beautician demo data.
+
+Config files added: [`vercel.json`](vercel.json), [`backend/railway.toml`](backend/railway.toml), [`backend/Procfile`](backend/Procfile).
 
 ---
 
