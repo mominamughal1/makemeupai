@@ -64,7 +64,7 @@ export const authStore = reactive({
       setAuthenticatedUser(this, data.data.user);
       return data;
     } catch (error) {
-      if (error.response?.status === 401) {
+      if (error.response?.status === 401 || !error.response) {
         clearUser(this);
         return null;
       }
