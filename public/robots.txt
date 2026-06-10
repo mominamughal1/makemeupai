@@ -6,4 +6,4 @@ Disallow: /recommendations
 Disallow: /bookings
 Disallow: /signin
 
-Sitemap: http://localhost:5173/sitemap.xml
+Sitemap: https://makemeupai.vercel.app/sitemap.xml
