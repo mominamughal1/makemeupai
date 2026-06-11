@@ -23,6 +23,6 @@ RUN chmod +x /entrypoint.sh \
     && mkdir -p storage/framework/sessions storage/framework/views storage/framework/cache storage/logs bootstrap/cache \
     && chmod -R 775 storage bootstrap/cache
 
-EXPOSE 8080
+EXPOSE 8000
 
 CMD ["/entrypoint.sh"]
